@@ -22,7 +22,8 @@ See [lastDB](http://last.cbrc.jp/doc/lastdb.txt) man page for options regarding 
 `split_multifasta --input_file /path/to/genome.fa --output_dir genome_dir`
 
 ### Pairwise genome alignments  
-`ls genome_dir/ | parallel "lastal -j1 -r5 -q100 -b100 -k2 tcas tmad/{} | last-split -m1 | last-postmask" > tcas_tmad.maf  
+`ls genome_dir/ | parallel "lastal -j1 -r5 -q100 -b100 -k2 tcas tmad/{} | last-split -m1 | last-postmask" > tcas_tmad.maf`
+
 See [lastal options](http://last.cbrc.jp/doc/lastal.txt). -j1 for gapless alignments, -r5 for normal match score, -q100 and -b100 for unfavorably high gap and mismatch scores, and -k1 to not skip any positions in sliding window comparison.  
 
 last-split takes multiple best hits across a genome and returns best match. -m1 ensures each query base pair is aligned to at most one target base pair.  
