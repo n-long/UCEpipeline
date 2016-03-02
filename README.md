@@ -16,7 +16,7 @@ Requires:
 See [lastDB](http://last.cbrc.jp/doc/lastdb.txt) man page for options regarding soft-masking and additional handling of simple repeats.
 
 ### Split each genome into separate files for each chromosome/contig/scaffold  
-`split_multifasta --input_file /path/to/genome.fa --output_dir genome_dir
+`split_multifasta --input_file /path/to/genome.fa --output_dir genome_dir`
 
 ### Pairwise genome alignments  
 `ls genome_dir/ | parallel "lastal -j1 -r5 -q100 -b100 -k2 tcas tmad/{} | last-split -m1 | last-postmask" > tcas_tmad.maf  
