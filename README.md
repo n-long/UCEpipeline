@@ -1,5 +1,7 @@
-# UCEpipeline
+## UCEpipeline
 find ultra-conserved elements (ungapped, 100% identity matches) from pairwise genome alignments
+
+Runtime: < 1 hour for six ~200Mb arthropod genomes
 
 Requires:  
 [LAST aligner](http://last.cbrc.jp/)  
@@ -20,7 +22,7 @@ See [lastDB](http://last.cbrc.jp/doc/lastdb.txt) man page for options regarding 
 #### Split each genome into separate files for each chromosome/contig/scaffold  
 `split_multifasta --input_file /path/to/genome.fa --output_dir genome_dir`
 
-### Pairwise genome alignments  
+#### Pairwise genome alignments  
 `ls genome_dir/ | parallel "lastal -j1 -r5 -q100 -b100 -k2 targetgenome.database genome_dir/{} | last-split -m1 | last-postmask" > genome1_genome2.maf`
 
 See [lastal options](http://last.cbrc.jp/doc/lastal.txt). -j1 for gapless alignments, -r5 for normal match score, -q100 and -b100 for unfavorably high gap and mismatch scores, and -k1 to not skip any positions in sliding window comparison.  
@@ -29,13 +31,13 @@ last-split takes multiple best hits across a genome and returns best match. -m1 
 
 last-postmask will discard alignments if it contains mostly repeats. I have included this for clarity since I do not use it when examining conservation of repeats. 
 
-### Convert MAF alignments to FASTA and deduplicate (optional min-length argument to drop small sequences)
+#### Convert MAF alignments to FASTA and deduplicate (optional min-length argument to drop small sequences)
 
 `parallel "perl maf2fasta.pl < {} | grep -v "=" > {.}.fa" ::: *.maf`
 
 `parallel seqmagick mogrify --deduplicate-sequences --min-length 20 {} ::: *.fa`
 
-### Concatenate FASTA files, deduplicate again, and rename headers to incrementing number
+#### Concatenate FASTA files, deduplicate again, and rename headers to incrementing number
 
 `cat *last.fa > UCE.fa`
 
@@ -43,31 +45,31 @@ last-postmask will discard alignments if it contains mostly repeats. I have incl
 
 `awk '/^>/{print ">"++i; next}{print}' UCE.fa > UCEcands.fa`
 
-### Map UCE candidates back to each genome
+#### Map UCE candidates back to each genome
 
 `cat UCEcands.fa | parallel --pipe --recstart '>' lastal -j1 -u0 -r100 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
 
-### Convert alignment to PSL and then to GFF
+#### Convert alignment to PSL and then to GFF
 
 `parallel "maf-convert psl {} > {.}.psl" ::: *_UCE.maf`
 
 `parallel "./psl2gff.pl < {} > {.}.gff" ::: *.psl`
 
-### Parse GFFs for UCE sequence names
+#### Parse GFFs for UCE sequence names
 
 `for i in *UCE.gff; do awk -F';' '{print $2}' $i | sed 's/Target=//g' | awk '{print $1}' | sort | uniq > $i.names; done`
 
-### Do pairwise join on each name file to see which are common to all
+#### Do pairwise join on each name file to see which are common to all
 
 `join genome1.names genome2.names > output1`
 `join output1 genome3.names > output2`  
 etc. etc.
 
-### Take reduced list and extract from larger UCE candidate sequence file
+#### Take reduced list and extract from larger UCE candidate sequence file
 
 `cat output3 | parallel -j 24 "{} samtools faidx UCEcands.fa > UCEreduced.fa"`
 
-### Repeat UCE mapping step
+#### Repeat UCE mapping step
 
 `cat UCEreduced.fa | parallel --pipe --recstart '>' lastal -j1 -u0 -r100 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
 
