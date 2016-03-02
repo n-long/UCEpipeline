@@ -9,7 +9,7 @@ Requires:
 [split_multifasta](http://iubio.bio.indiana.edu/gmod/genogrid/scripts/split_multifasta.pl)  
 [blat2gff](http://iubio.bio.indiana.edu/gmod/tandy/blat2gff.pl)
 
-### Create LAST databases for each genome  
+#### Create LAST databases for each genome  
 `lastdb -R11 dbname /path/to/genome.fa`  
 OR    
 `parallel "lastdb -R11 {.}.database" ::: *genomes.fa` 
@@ -17,7 +17,7 @@ OR
 
 See [lastDB](http://last.cbrc.jp/doc/lastdb.txt) man page for options regarding soft-masking and additional handling of simple repeats.
 
-### Split each genome into separate files for each chromosome/contig/scaffold  
+#### Split each genome into separate files for each chromosome/contig/scaffold  
 `split_multifasta --input_file /path/to/genome.fa --output_dir genome_dir`
 
 ### Pairwise genome alignments  
