@@ -11,7 +11,8 @@ Requires:
 
 
 ### Create LAST databases for each genome  
-`lastdb -R11 dbname /path/to/genome.fa` OR  
+`lastdb -R11 dbname /path/to/genome.fa`  
+OR    
 `parallel "lastdb -R11 {.}.database" ::: *genomes.fa`  
 See [lastDB](http://last.cbrc.jp/doc/lastdb.txt) man page for options regarding soft-masking and additional handling of simple repeats.
 
