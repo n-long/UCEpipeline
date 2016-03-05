@@ -43,11 +43,11 @@ See [lastal options](http://last.cbrc.jp/doc/lastal.txt). -j1 for gapless alignm
 
 `cat UCEcands.fa | parallel --pipe --recstart '>' lastal -T1 -u0 -r5 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
 
-#### Convert alignment to PSL and then to GFF
+#### Convert alignment to PSL and then to GFF (additional filter for the few <100% hits that get through)
 
 `parallel "maf-convert psl {} > {.}.psl" ::: *_UCE.maf`
 
-`parallel "./psl2gff.pl < {} > {.}.gff" ::: *.psl`
+`parallel "./psl2gff.pl < {} | awk '\$6=100' > {.}.gff" ::: *.psl`
 
 #### Parse GFFs for UCE sequence names
 
