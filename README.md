@@ -1,8 +1,6 @@
 ## UCEpipeline
 find ultra-conserved elements (ungapped, 100% identity matches) from pairwise genome alignments
 
-Runtime: < 1 hour for six ~200Mb arthropod genomes
-
 Requires:  
 [LAST aligner](http://last.cbrc.jp/)  
 [GNU Parallel](http://www.gnu.org/software/parallel/)  
@@ -47,7 +45,7 @@ last-postmask will discard alignments if it contains mostly repeats. I have incl
 
 #### Map UCE candidates back to each genome
 
-`cat UCEcands.fa | parallel --pipe --recstart '>' lastal -j1 -u0 -r100 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
+`cat UCEcands.fa | parallel --pipe --recstart '>' lastal -T1 -u0 -r5 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
 
 #### Convert alignment to PSL and then to GFF
 
@@ -71,7 +69,7 @@ etc. etc.
 
 #### Repeat UCE mapping step
 
-`cat UCEreduced.fa | parallel --pipe --recstart '>' lastal -j1 -u0 -r100 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
+`cat UCEreduced.fa | parallel --pipe --recstart '>' lastal -T1 -u0 -r5 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
 
 `parallel "maf-convert psl {} > {.}.psl" ::: *_UCE.maf`
 
