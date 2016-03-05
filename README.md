@@ -63,7 +63,7 @@ etc. etc.
 
 `cat output3 | parallel -j 24 "{} samtools faidx UCEcands.fa >> UCEreduced.fa"`
 
-#### Repeat UCE mapping step
+#### Map only those elements surviving all vs. all comparison back to each genome
 
 `cat UCEreduced.fa | parallel --pipe --recstart '>' lastal -T1 -u0 -r5 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
 
