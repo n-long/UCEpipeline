@@ -61,7 +61,7 @@ etc. etc.
 
 #### Extract reduced list from larger UCE candidate sequence file
 
-`cat output3 | parallel -j 24 "{} samtools faidx UCEcands.fa > UCEreduced.fa"`
+`cat output3 | parallel -j 24 "{} samtools faidx UCEcands.fa >> UCEreduced.fa"`
 
 #### Repeat UCE mapping step
 
