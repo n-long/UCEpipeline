@@ -59,7 +59,7 @@ See [lastal options](http://last.cbrc.jp/doc/lastal.txt). -j1 for gapless alignm
 `join output1 genome3.names > output2`  
 etc. etc.
 
-#### Take reduced list and extract from larger UCE candidate sequence file
+#### Extract reduced list from larger UCE candidate sequence file
 
 `cat output3 | parallel -j 24 "{} samtools faidx UCEcands.fa > UCEreduced.fa"`
 
