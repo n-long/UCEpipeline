@@ -55,7 +55,7 @@ See [lastal options](http://last.cbrc.jp/doc/lastal.txt). -j1 for gapless alignm
 
 #### Do pairwise join on each name file to see which are common to all
 
-`join genome1.names genome2.names > output1`
+`join genome1.names genome2.names > output1`  
 `join output1 genome3.names > output2`  
 etc. etc.
 
