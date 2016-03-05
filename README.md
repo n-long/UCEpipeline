@@ -67,6 +67,8 @@ etc. etc.
 
 `cat UCEreduced.fa | parallel --pipe --recstart '>' lastal -T1 -u0 -r5 -q100 -b100 -k1 eachgenome.database - > genome_UCE.maf`
 
+-j1 option is switched out for -T1 so that only alignments extending to the end of the query sequence are accepted.
+
 `parallel "maf-convert psl {} > {.}.psl" ::: *_UCE.maf`
 
 `parallel "./psl2gff.pl < {} > {.}.gff" ::: *.psl`
